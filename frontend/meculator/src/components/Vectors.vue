@@ -3,60 +3,114 @@
     <div class="btn-group-vertical align-self-start"
       role="group" aria-label="Vertical button group">
 
-      <button class="btn btn-dark" v-if="!select_mode" @click="select_mode=true">
+      <!-- Select Mode -->
+      <button
+        class="btn btn-dark"
+        v-if="!on_a_mode"
+        @click="select_mode=true"
+      >
         <i class="bi bi-check-square"></i>
       </button>
 
-      <button class="btn btn-dark" v-if="select_mode" @click="deselect_all()">
+      <!-- Input Mode, Add Vector -->
+      <button
+        class="btn btn-dark"
+        v-if="!on_a_mode"
+        @click="input_mode=true"
+      >
+        <i class="bi bi-plus-lg"></i>
+      </button>
+
+      <!-- Get Out Input Mode -->
+      <button
+        class="btn btn-dark"
+        v-if="input_mode"
+        @click="input_mode=false"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+      <!-- Deselect All -->
+      <button
+        class="btn btn-dark"
+        v-if="just_select_mode"
+        @click="deselect_all()"
+      >
         <i class="bi bi-square"></i>
       </button>
 
-      <button class="btn btn-dark" v-if="select_mode && selection_count < vectors.length"
-       @click="select_all()"
+      <!-- Select All -->
+      <button
+        class="btn btn-dark"
+        v-if="just_select_mode && selection_count < vectors.length"
+        @click="select_all()"
       >
         <i class="bi bi-list-check"></i>
       </button>
 
-      <button class="btn btn-dark" v-if="selection_count > 0">
-        <i class="bi bi-pencil"></i>
+      <!-- Move Selection Up -->
+      <button class="btn btn-dark" v-if="just_select_mode">
+        <i class="bi bi-arrow-up-square"></i>
       </button>
 
-      <button class="btn btn-dark" v-if="selection_count > 0">
+      <!-- Check Vector -->
+      <button class="btn btn-dark" v-if="just_select_mode">
+        <i class="bi bi-check-lg"></i>
+      </button>
+
+      <!-- Move Selection Down -->
+      <button class="btn btn-dark" v-if="just_select_mode">
+        <i class="bi bi-arrow-down-square"></i>
+      </button>
+
+      <!-- Delete Vector -->
+      <button
+        class="btn btn-dark"
+        v-if="selection_count > 0 && !input_mode"
+      >
         <i class="bi bi-trash3"></i>
       </button>
 
+      <!-- Save Input Vector -->
+      <button class="btn btn-dark" v-if="input_mode">
+        <i class="bi bi-floppy"></i>
+      </button>
+
+      <!-- Edit Vector -->
+      <button
+        class="btn btn-dark" 
+        v-if="selection_count === 1 && !input_mode"
+        @click="input_mode=true"
+      >
+        <i class="bi bi-pencil"></i>
+      </button>
+
+      <!-- Operation Mode -->
       <button class="btn btn-dark" v-if="selection_count > 1">
         <i class="bi bi-calculator"></i>
       </button>
 
+      <!-- Reload Data -->
       <button class="btn btn-dark" v-if="selection_count > 1">
         <i class="bi bi-arrow-clockwise"></i>
       </button>
 
-      <button class="btn btn-dark" v-if="select_mode">
-        <i class="bi bi-arrow-up-square"></i>
-      </button>
-
-      <button class="btn btn-dark" v-if="select_mode">
-        <i class="bi bi-check-lg"></i>
-      </button>
-
-      <button class="btn btn-dark" v-if="select_mode">
-        <i class="bi bi-arrow-down-square"></i>
-      </button>
-
+      <!-- Reload Data -->
       <button class="btn btn-dark">
         <i class="bi bi-arrow-repeat"></i>
       </button>
 
+      <!-- Next Page -->
       <button class="btn btn-dark">
         <i class="bi bi-chevron-double-right"></i>
       </button>
 
+      <!-- Previous Page -->
       <button class="btn btn-dark">
         <i class="bi bi-chevron-double-left"></i>
       </button>
 
+      <!-- Out -->
       <button class="btn btn-dark">
         <i class="bi bi-box-arrow-left"></i>
       </button>
@@ -64,7 +118,9 @@
     </div>
 
     <div class="flex-grow-1">
-      <table class="table table-dark table-hover table-responsive table-striped-columns">
+      <table
+        class="table table-dark table-hover table-responsive table-striped-columns"
+      >
         <thead>
           <tr>
             <th scope="col" v-show="select_mode">Select</th>
@@ -100,7 +156,7 @@
 </style>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 
 defineProps({
 })
@@ -112,6 +168,14 @@ const attributes = ref([
   'y',
   'z'
 ])
+
+const on_a_mode = computed(() => {
+  return select_mode.value || input_mode.value
+})
+
+const just_select_mode = computed(() => {
+  return select_mode.value && !input_mode.value
+})
 
 let select_mode = ref(false)
 const selection_count = ref(0)
@@ -134,6 +198,9 @@ const change_count = (is_selected) => {
     selection_count.value--
   }
 }
+
+let input_mode = ref(false)
+
 
 const vectors = reactive([
   { is_selected: false, name: 'Lorem', value: 30, x: 30, y: 0, z: 0 },
