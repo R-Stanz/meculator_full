@@ -1,5 +1,5 @@
 <template>
-  <router-view />
+  <Vectors />
 </template>
 
 
@@ -8,6 +8,6 @@
 
 
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import Vectors from '@/components/Vectors.vue'
 </script>
 
