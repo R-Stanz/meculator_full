@@ -11,8 +11,54 @@
         <i class="bi bi-square"></i>
       </button>
 
-      <button class="btn btn-dark" v-if="select_mode" @click="select_all()">
+      <button class="btn btn-dark" v-if="select_mode && selection_count < vectors.length"
+       @click="select_all()"
+      >
         <i class="bi bi-list-check"></i>
+      </button>
+
+      <button class="btn btn-dark" v-if="selection_count > 0">
+        <i class="bi bi-pencil"></i>
+      </button>
+
+      <button class="btn btn-dark" v-if="selection_count > 0">
+        <i class="bi bi-trash3"></i>
+      </button>
+
+      <button class="btn btn-dark" v-if="selection_count > 1">
+        <i class="bi bi-calculator"></i>
+      </button>
+
+      <button class="btn btn-dark" v-if="selection_count > 1">
+        <i class="bi bi-arrow-clockwise"></i>
+      </button>
+
+      <button class="btn btn-dark" v-if="select_mode">
+        <i class="bi bi-arrow-up-square"></i>
+      </button>
+
+      <button class="btn btn-dark" v-if="select_mode">
+        <i class="bi bi-check-lg"></i>
+      </button>
+
+      <button class="btn btn-dark" v-if="select_mode">
+        <i class="bi bi-arrow-down-square"></i>
+      </button>
+
+      <button class="btn btn-dark">
+        <i class="bi bi-arrow-repeat"></i>
+      </button>
+
+      <button class="btn btn-dark">
+        <i class="bi bi-chevron-double-right"></i>
+      </button>
+
+      <button class="btn btn-dark">
+        <i class="bi bi-chevron-double-left"></i>
+      </button>
+
+      <button class="btn btn-dark">
+        <i class="bi bi-box-arrow-left"></i>
       </button>
 
     </div>
