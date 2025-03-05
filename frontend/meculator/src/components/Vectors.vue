@@ -3,21 +3,38 @@
     <div class="btn-group-vertical align-self-start"
       role="group" aria-label="Vertical button group">
 
-      <button class="btn btn-dark" v-for="option in options">{{ option.name }}</button>
+      <button class="btn btn-dark" v-if="!select_mode" @click="select_mode=true">
+        <i class="bi bi-check-square"></i>
+      </button>
+
+      <button class="btn btn-dark" v-if="select_mode" @click="deselect_all()">
+        <i class="bi bi-square"></i>
+      </button>
+
+      <button class="btn btn-dark" v-if="select_mode" @click="select_all()">
+        <i class="bi bi-list-check"></i>
+      </button>
+
     </div>
 
     <div class="flex-grow-1">
       <table class="table table-dark table-hover table-responsive table-striped-columns">
         <thead>
           <tr>
-            <th scope="col" v-show="options[0].active">Select</th>
+            <th scope="col" v-show="select_mode">Select</th>
             <th scope="col" v-for="att in attributes">{{ att }}</th>
           </tr>
         </thead>
 
         <tbody class="table-group-divider rounded">
-          <tr v-for="vec in vectors">
-            <td v-show="options[0].active">Ah</td>
+          <tr v-for="(vec, index) in vectors" :key="index">
+            <td v-show="select_mode">
+              <input class="form-check-input me-1" 
+                type="checkbox" 
+                v-model="vec.is_selected"
+                @click="change_count(!vec.is_selected)"
+              >
+            </td>
             <th scope="row">{{ vec.name }}</th>
             <td>{{ vec.value }}</td>
             <td>{{ vec.x }}</td>
@@ -40,10 +57,8 @@
 import { ref, reactive } from 'vue'
 
 defineProps({
-  msg: String,
 })
 
-const count = ref(0)
 const attributes = ref([
   'Vector name',
   'Value',
@@ -52,15 +67,32 @@ const attributes = ref([
   'z'
 ])
 
+let select_mode = ref(false)
+const selection_count = ref(0)
+
+const deselect_all = () => {
+  select_mode.value = false
+  vectors.forEach(vec => vec.is_selected = false)
+  selection_count.value = 0
+}
+
+const select_all = () => {
+  vectors.forEach(vec => vec.is_selected = true)
+  selection_count.value = vectors.length
+}
+
+const change_count = (is_selected) => {
+  if (is_selected) {
+    selection_count.value++
+  } else {
+    selection_count.value--
+  }
+}
+
 const vectors = reactive([
-  { name: 'Lorem', value: 30, x: 30, y: 0, z: 0 },
-  { name: 'ips', value: 30, x: 0, y: 30, z: 0 },
-  { name: 'um', value: 30, x: 0, y: 0, z: 30 }
+  { is_selected: false, name: 'Lorem', value: 30, x: 30, y: 0, z: 0 },
+  { is_selected: false, name: 'ips', value: 30, x: 0, y: 30, z: 0 },
+  { is_selected: false, name: 'um', value: 30, x: 0, y: 0, z: 30 }
 ])
 
-const options = reactive([
-  { name: 'Selection', event: 'select', active: false },
-  { name: 'Operation', event: 'operate', active: false},
-  { name: 'Get Unit Vector', event: 'to_unit', active: false},
-])
 </script>
