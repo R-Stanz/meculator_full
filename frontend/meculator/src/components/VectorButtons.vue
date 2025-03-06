@@ -122,34 +122,7 @@
 </style>
 
 <script setup>
-import { ref, reactive, computed, watch } from 'vue'
 import { useVectorsStore } from '@/stores/VectorsStore';
-import { VectorButtons } from '@/components/VectorButtons.vue';
 
 const store = useVectorsStore()
-
-watch([store.select_mode, store.input_mode],
-  ([new_select_mode, new_input_mode], [old_select_mode, old_input_mode]) => {
-    if (new_select_mode && new_input_mode) {
-      for (let vec in store.vector) {
-        if (vec.is_selected) {
-          store.new_vector = vec
-          break
-        }
-      }
-    }
-    else if (!new_input_mode) {
-      store.new_vector = {
-        is_selected: false,
-        name: '',
-        value: 0,
-        x: 0,
-        y: 0,
-        z: 0
-      }
-    }
-  },
-  { immediate: true }
-)
-
 </script>

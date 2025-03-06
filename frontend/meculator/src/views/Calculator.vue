@@ -1,5 +1,5 @@
 <template>
-  <Vectors />
+  <Tables />
 </template>
 
 
@@ -8,6 +8,6 @@
 
 
 <script setup>
-import Vectors from '@/components/Vectors.vue'
+import Tables from '@/components/Tables.vue'
 </script>
 

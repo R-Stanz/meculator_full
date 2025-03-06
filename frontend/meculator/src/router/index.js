@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Tables from '@/views/Tables.vue'
+import Calculator from '@/views/Calculator.vue'
 
 const routes = [
         {
-                name: 'Tables',
+                name: 'Home',
                 path: '/',
-                component: Tables
+                component: Calculator
         },
 ]
 
