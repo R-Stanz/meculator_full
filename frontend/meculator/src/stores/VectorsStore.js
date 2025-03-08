@@ -12,7 +12,7 @@ export const useVectorsStore = defineStore('vectors', {
             ],
 
             select_mode : false,
-            selection_count : 0,
+            selected_vectors: [],
             input_mode : false,
 
             vectors : [
@@ -34,20 +34,26 @@ export const useVectorsStore = defineStore('vectors', {
     getters: {
         is_on_a_mode: (state) => state.select_mode || state.input_mode,
         is_just_on_select_mode: (state) => state.select_mode && !state.input_mode,
+        selection_count: (state) => state.selected_vectors.length,
     },
     actions: {
         deselect_all() {
             this.$reset()
         },
         select_all() {
-            this.vectors.forEach(vec => vec.is_selected = true)
-            this.selection_count = this.vectors.length
+            this.vectors.forEach((vec, index) => 
+                {
+                    vec.is_selected = true
+                    this.selected_vectors.push(index)
+                }
+            )
         },
-        change_count(vector) {
+        change_count(vector, vector_index) {
             if (!vector.is_selected) {
-                this.selection_count++
+                this.selected_vectors.push(vector_index)
             } else {
-                this.selection_count--
+                this.selected_vectors = 
+                    this.selected_vectors.filter((index) => vector_index !== index)
             }
         },
     }

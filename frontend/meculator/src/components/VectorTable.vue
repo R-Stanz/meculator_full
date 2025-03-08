@@ -5,19 +5,19 @@
     >
     <thead>
         <tr>
-        <th scope="col" v-show="store.is_just_on_select_mode">Select</th>
-        <th scope="col" v-for="att in store.attributes">{{ att }}</th>
+          <th scope="col" v-show="store.is_just_on_select_mode">Select</th>
+          <th scope="col" v-for="att in store.attributes">{{ att }}</th>
         </tr>
     </thead>
 
     <tbody class="table-group-divider rounded">
-        <template v-for="vec in store.vectors">
+        <template v-for="(vec, index) in store.vectors">
         <tr>
             <td v-show="store.is_just_on_select_mode">
             <input class="form-check-input me-1" 
                 type="checkbox" 
                 v-model="vec.is_selected"
-                @click="store.change_count(vec)"
+                @click="store.change_count(vec, index)"
             >
             </td>
             <th>{{ vec.name }}</th>
