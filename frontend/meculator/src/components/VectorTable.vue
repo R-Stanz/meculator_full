@@ -5,15 +5,23 @@
     >
     <thead>
         <tr>
-          <th scope="col" v-show="store.is_just_on_select_mode">Select</th>
+          <th scope="col" v-show="store.just_selecting">Select</th>
           <th scope="col" v-for="att in store.attributes">{{ att }}</th>
         </tr>
     </thead>
 
     <tbody class="table-group-divider rounded">
+      <tr v-if="store.input_mode && !store.select_mode">
+          <th v-show="false"> Just to fix columns visual </th>
+          <th>{{ store.new_vector.name }}</th>
+          <td>{{ store.new_vector.value }}</td>
+          <td>{{ store.new_vector.x }}</td>
+          <td>{{ store.new_vector.y }}</td>
+          <td>{{ store.new_vector.z }}</td>
+      </tr>
         <template v-for="(vec, index) in store.vectors">
         <tr>
-            <td v-show="store.is_just_on_select_mode">
+            <td v-show="store.just_selecting">
             <input class="form-check-input me-1" 
                 type="checkbox" 
                 v-model="vec.is_selected"
@@ -26,7 +34,7 @@
             <td>{{ vec.y }}</td>
             <td>{{ vec.z }}</td>
         </tr>
-        <tr v-if="store.edit_mode && vec.is_selected">
+        <tr v-if="store.input_mode && vec.is_selected">
             <th>{{ vec.name }}</th>
             <td>{{ vec.value }}</td>
             <td>{{ vec.x }}</td>
@@ -46,30 +54,5 @@
 import { useVectorsStore } from '@/stores/VectorsStore';
 
 const store = useVectorsStore()
-/*
-watch([store.select_mode, store.input_mode],
-  ([new_select_mode, new_input_mode], [old_select_mode, old_input_mode]) => {
-    if (new_select_mode && new_input_mode) {
-      for (let vec in store.vector) {
-        if (vec.is_selected) {
-          store.new_vector = vec
-          break
-        }
-      }
-    }
-    else if (!new_input_mode) {
-      store.new_vector = {
-        is_selected: false,
-        name: '',
-        value: 0,
-        x: 0,
-        y: 0,
-        z: 0
-      }
-    }
-  },
-  { immediate: true }
-)
-*/
 
 </script>

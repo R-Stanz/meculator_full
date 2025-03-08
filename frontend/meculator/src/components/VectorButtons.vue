@@ -5,7 +5,7 @@
     <!-- Select Mode -->
     <button
     class="btn btn-dark"
-    v-if="!store.is_on_a_mode"
+    v-if="!store.on_a_mode"
     @click="store.select_mode=true"
     >
     <i class="bi bi-check-square"></i>
@@ -14,7 +14,7 @@
     <!-- Input Mode, Add Vector -->
     <button
     class="btn btn-dark"
-    v-if="!store.is_on_a_mode"
+    v-if="!store.on_a_mode"
     @click="store.input_mode=true"
     >
     <i class="bi bi-plus-lg"></i>
@@ -32,7 +32,7 @@
     <!-- Deselect All -->
     <button
     class="btn btn-dark"
-    v-if="store.is_just_on_select_mode"
+    v-if="store.just_selecting"
     @click="store.deselect_all()"
     >
     <i class="bi bi-square"></i>
@@ -41,24 +41,24 @@
     <!-- Select All -->
     <button
     class="btn btn-dark"
-    v-if="store.is_just_on_select_mode && store.selection_count < store.vectors.length"
+    v-if="store.just_selecting && store.selection_count < store.vectors.length"
     @click="store.select_all()"
     >
     <i class="bi bi-list-check"></i>
     </button>
 
     <!-- Move Selection Up -->
-    <button class="btn btn-dark" v-if="store.is_just_on_select_mode">
+    <button class="btn btn-dark" v-if="store.just_selecting">
     <i class="bi bi-arrow-up-square"></i>
     </button>
 
     <!-- Check Vector -->
-    <button class="btn btn-dark" v-if="store.is_just_on_select_mode">
+    <button class="btn btn-dark" v-if="store.just_selecting">
     <i class="bi bi-check-lg"></i>
     </button>
 
     <!-- Move Selection Down -->
-    <button class="btn btn-dark" v-if="store.is_just_on_select_mode">
+    <button class="btn btn-dark" v-if="store.just_selecting">
     <i class="bi bi-arrow-down-square"></i>
     </button>
 
@@ -71,7 +71,10 @@
     </button>
 
     <!-- Save Input Vector -->
-    <button class="btn btn-dark" v-if="store.input_mode">
+    <button
+        class="btn btn-dark"
+        @click="store.submitHandler"
+        v-if="store.input_mode">
     <i class="bi bi-floppy"></i>
     </button>
 
@@ -125,4 +128,5 @@
 import { useVectorsStore } from '@/stores/VectorsStore';
 
 const store = useVectorsStore()
+
 </script>

@@ -32,8 +32,8 @@ export const useVectorsStore = defineStore('vectors', {
         }
     },
     getters: {
-        is_on_a_mode: (state) => state.select_mode || state.input_mode,
-        is_just_on_select_mode: (state) => state.select_mode && !state.input_mode,
+        on_a_mode: (state) => state.select_mode || state.input_mode,
+        just_selecting: (state) => state.select_mode && !state.input_mode,
         selection_count: (state) => state.selected_vectors.length,
     },
     actions: {
