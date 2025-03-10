@@ -21,14 +21,23 @@ export const useVectorsStore = defineStore('vectors', {
                 { is_selected: false, name: 'um', value: 30, x: 0, y: 0, z: 30 }
             ],
             
-            new_vector : {
+            input_vector : {
                 is_selected: false,
                 name: '',
                 value: 0,
                 x: 0,
                 y: 0,
                 z: 0
-            }
+            },
+
+            fields_config : [
+                {name: 'name', type: 'text', placeholder: 'Vector Name'},
+                {name: 'value', type: 'number', placeholder: '0.00'},
+                {name: 'x', type: 'number', placeholder: '0.00'},
+                {name: 'y', type: 'number', placeholder: '0.00'},
+                {name: 'z', type: 'number', placeholder: '0.00'}
+            ]
+            
         }
     },
     getters: {

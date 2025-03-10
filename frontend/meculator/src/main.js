@@ -11,8 +11,9 @@ import { createPinia } from 'pinia'
 import "bootstrap"
 
 const app = createApp(App)
-app.use(router)
-app.use(VeeValidatePlugin)
+
 app.use(vueAxios, axios)
 app.use(createPinia())
+app.use(router)
+app.use(VeeValidatePlugin)
 app.mount('#app')

@@ -22,7 +22,7 @@ export default {
 					required: 	`The field ${ctx.field} is required.`,
 					min: 		`The field ${ctx.field} is too short.`,
 					max:		`The field ${ctx.field} is too long.`,
-					alpha_dash: 	`The field ${ctx.field} has an invalid character.`,
+					alpha_dash: `The field ${ctx.field} has an invalid character.`,
 					email:		`The field ${ctx.field} must have an email.`,
 					double:		`The field ${ctx.field} must have a number.`,
 				}
