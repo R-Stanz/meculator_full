@@ -36,7 +36,15 @@ export const useVectorsStore = defineStore('vectors', {
                 {name: 'x', type: 'number', placeholder: '0.00'},
                 {name: 'y', type: 'number', placeholder: '0.00'},
                 {name: 'z', type: 'number', placeholder: '0.00'}
-            ]
+            ],
+
+            validationSchema : {
+                name: 'required|min:3',
+                value: 'required|alpha_dash',
+                x: 'required|alpha_dash',
+                y: 'required|alpha_dash',
+                z: 'required|alpha_dash',
+            },
             
         }
     },
@@ -65,5 +73,19 @@ export const useVectorsStore = defineStore('vectors', {
                     this.selected_vectors.filter((index) => vector_index !== index)
             }
         },
+        update_input_vector(new_values) {
+            this.input_vector = { 
+                ...this.input_vector, 
+                ...new_values 
+            }
+        },
+        save_vector() {
+            if (this.select_mode) {
+                console.log('Updating vector')
+            }
+            else {
+                console.log('Adding vector')
+            }
+        }
     }
 });

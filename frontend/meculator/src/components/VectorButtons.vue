@@ -82,8 +82,9 @@
     <!-- Save Input Vector -->
     <button
         class="btn btn-dark"
-        @click="store.submitHandler"
+        @click="store.save_vector()"
         v-if="store.input_mode"
+        :disabled="!is_savable"
     >
         <i class="bi bi-floppy"></i>
     </button>
@@ -142,7 +143,25 @@
 
 <script setup>
 import { useVectorsStore } from '@/stores/VectorsStore';
+import { validate } from 'vee-validate';
+import { ref, watch } from 'vue';
 
 const store = useVectorsStore()
+
+let is_savable =  ref(false)
+
+watch(() => store.input_vector,
+    async (new_vector, old_vector) => {
+        const schema_entries = Object.entries(store.validationSchema)
+        const validations = await Promise.all(
+            schema_entries.map(async ([field, rule]) => {
+                const validation = await validate(store.input_vector[field], rule)
+                return validation.valid
+            })
+        )
+        is_savable.value = validations.every(valid => valid)
+    },
+    { immediate: true }
+)
 
 </script>
