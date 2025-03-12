@@ -34,6 +34,7 @@
             </td>
         </tr>
 
+
         <template v-for="(vec, index) in store.vectors">
           <tr>
               <td v-show="store.just_selecting">
@@ -50,12 +51,29 @@
               <td>{{ vec.y }}</td>
               <td>{{ vec.z }}</td>
           </tr>
+
+
           <tr v-if="store.input_mode && vec.is_selected">
-              <th>{{ vec.name }}</th>
-              <td>{{ vec.value }}</td>
-              <td>{{ vec.x }}</td>
-              <td>{{ vec.y }}</td>
-              <td>{{ vec.z }}</td>
+            <td v-show="false" />
+            <td 
+              v-for="field in store.fields_config"
+              class="m-0"
+            >
+              <div class="d-flex flex-column m-0">
+                <vee-field 
+                  :name="field.name" 
+                  v-model="values[field.name]"
+                  :placeholder="vec[field.name]"
+                  :type="field.type"
+                  class="form-control-sm"
+                  :disabled="field.name === 'name'"
+                />
+                <error-message
+                  class="text-danger mt-1"
+                  :name="field.name"
+                />
+              </div>
+            </td>
           </tr>
         </template>
       </tbody>
@@ -73,15 +91,22 @@ import { useForm } from 'vee-validate';
 import { reactive, watch } from 'vue';
 
 const store = useVectorsStore()
-//const input_vector = reactive(store.input_vector);
 
 const schema = store.validationSchema
-const values = reactive(store.input_vector)
+let values = reactive(store.input_vector)
 
 const { errors, handleSubmit } = useForm({
   schema,
   initialValues: store.input_vector,
 });
+
+watch (() => store.input_mode, (new_value) =>
+  {
+    if (new_value && store.select_mode) {
+      values = reactive(store.input_vector)
+    }
+  }
+)
 
 watch (values, (new_values) => 
   {

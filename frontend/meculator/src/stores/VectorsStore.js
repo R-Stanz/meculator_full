@@ -32,18 +32,18 @@ export const useVectorsStore = defineStore('vectors', {
 
             fields_config : [
                 {name: 'name', type: 'text', placeholder: 'Vector Name'},
-                {name: 'value', type: 'number', placeholder: '0.00'},
-                {name: 'x', type: 'number', placeholder: '0.00'},
-                {name: 'y', type: 'number', placeholder: '0.00'},
-                {name: 'z', type: 'number', placeholder: '0.00'}
+                {name: 'value', type: 'text', placeholder: '0.00'},
+                {name: 'x', type: 'text', placeholder: '0.00'},
+                {name: 'y', type: 'text', placeholder: '0.00'},
+                {name: 'z', type: 'text', placeholder: '0.00'}
             ],
 
             validationSchema : {
-                name: 'required|min:3',
-                value: 'required|alpha_dash',
-                x: 'required|alpha_dash',
-                y: 'required|alpha_dash',
-                z: 'required|alpha_dash',
+                name:   'required|min:3',
+                value:  'required|decimal:3',
+                x:      'required|decimal:3',
+                y:      'required|decimal:3',
+                z:      'required|decimal:3',
             },
             
         }
@@ -79,12 +79,19 @@ export const useVectorsStore = defineStore('vectors', {
                 ...new_values 
             }
         },
+        enter_edit_mode() {
+            this.input_vector = { ...this.vectors[this.selected_vectors[0]] }
+            this.input_mode = true
+        },
         save_vector() {
             if (this.select_mode) {
-                console.log('Updating vector')
+                this.input_vector.is_selected = true
+                console.log('Updating vector:', this.vectors[this.selected_vectors[0]], " => ", this.input_vector)
+                this.vectors[this.selected_vectors[0]] = this.input_vector
             }
             else {
-                console.log('Adding vector')
+                console.log('Adding vector: ', this.input_vector)
+                this.vectors.push(this.input_vector)
             }
         }
     }

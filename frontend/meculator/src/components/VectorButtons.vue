@@ -93,7 +93,7 @@
     <button
         class="btn btn-dark" 
         v-if="store.selection_count === 1 && !store.input_mode"
-        @click="store.input_mode=true"
+        @click="store.enter_edit_mode()"
     >
         <i class="bi bi-pencil"></i>
     </button>
@@ -151,7 +151,7 @@ const store = useVectorsStore()
 let is_savable =  ref(false)
 
 watch(() => store.input_vector,
-    async (new_vector, old_vector) => {
+    async (new_vector) => {
         const schema_entries = Object.entries(store.validationSchema)
         const validations = await Promise.all(
             schema_entries.map(async ([field, rule]) => {

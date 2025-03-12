@@ -14,7 +14,14 @@ export default {
 		defineRule('max', max)
 		defineRule('alpha_dash', alphaDash)
 		defineRule('email', email)
-		//defineRule('double', double)
+		defineRule('decimal', (value) => {
+            if (!value) {
+                return true;
+            }
+            // Allows positive and negative decimal numbers
+            const decimalRegex = /^-?\d*(\.?\d*(e-?\d+)?)?$/;
+            return decimalRegex.test(value) || 'This field must be a valid decimal number';
+        })
 
 		configure({
 			generateMessage: (ctx) => {
@@ -24,7 +31,7 @@ export default {
 					max:		`The field ${ctx.field} is too long.`,
 					alpha_dash: `The field ${ctx.field} has an invalid character.`,
 					email:		`The field ${ctx.field} must have an email.`,
-					double:		`The field ${ctx.field} must have a number.`,
+					decimal:	`The field ${ctx.field} must have a number.`,
 				}
 
 				const message = messages[ctx.rule.name]
