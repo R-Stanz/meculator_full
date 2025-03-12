@@ -18,8 +18,8 @@ export default {
             if (!value) {
                 return true;
             }
-            // Allows positive and negative decimal numbers
-            const decimalRegex = /^-?\d*(\.?\d*(e-?\d+)?)?$/;
+            // Allows positive and negative decimal numbers with E notation
+            const decimalRegex = /^(-?\d*)(\d(\.?\d*)|(\.?\d*)\d)(e-?\d+)?$/
             return decimalRegex.test(value) || 'This field must be a valid decimal number';
         })
 
