@@ -1,5 +1,14 @@
 import { defineStore } from 'pinia';
 
+const base_vector = {
+    is_selected: false,
+    name: '',
+    value: 0,
+    x: 0,
+    y: 0,
+    z: 0
+}
+
 export const useVectorsStore = defineStore('vectors', {
     state: () => {
         return {
@@ -15,14 +24,7 @@ export const useVectorsStore = defineStore('vectors', {
                 { is_selected: false, name: 'um', value: 30, x: 0, y: 0, z: 30 }
             ],
             
-            input_vector : {
-                is_selected: false,
-                name: '',
-                value: 0,
-                x: 0,
-                y: 0,
-                z: 0
-            },
+            input_vector : JSON.parse(JSON.stringify(base_vector)),
 
             validationSchema : {
                 name:   'required|min:3',
@@ -72,12 +74,21 @@ export const useVectorsStore = defineStore('vectors', {
         save_vector() {
             if (this.select_mode) {
                 this.input_vector.is_selected = true
-                console.log('Updating vector:', this.vectors[this.selected_vectors[0]], " => ", this.input_vector)
+                
+                console.log(
+                    'Updating vector:', this.vectors[this.selected_vectors[0]], " => ", 
+                    this.input_vector
+                )
+
                 this.vectors[this.selected_vectors[0]] = this.input_vector
+                console.log('Vector Updated!')
+                this.input_mode = false
             }
             else {
                 console.log('Adding vector: ', this.input_vector)
                 this.vectors.push(this.input_vector)
+                console.log('Vector Added!')
+                this.input_mode = false
             }
         },
         switch_show_more_options() { 
