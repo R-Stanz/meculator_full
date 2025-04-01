@@ -1,14 +1,5 @@
 import { defineStore } from 'pinia';
 
-const base_vector = {
-    is_selected: false,
-    name: '',
-    value: 0,
-    x: 0,
-    y: 0,
-    z: 0
-}
-
 export const useVectorsStore = defineStore('vectors', {
     state: () => {
         return {
@@ -24,7 +15,14 @@ export const useVectorsStore = defineStore('vectors', {
                 { is_selected: false, name: 'um', value: 30, x: 0, y: 0, z: 30 }
             ],
             
-            input_vector : JSON.parse(JSON.stringify(base_vector)),
+            input_vector : {
+                is_selected: false,
+                name: '',
+                value: 0,
+                x: 0,
+                y: 0,
+                z: 0
+            },
 
             validationSchema : {
                 name:   'required|min:3',
@@ -43,7 +41,12 @@ export const useVectorsStore = defineStore('vectors', {
     },
     actions: {
         deselect_all() {
-            this.$reset()
+            this.selected_vectors.forEach((index) =>
+                this.vectors[index].is_selected = false
+            )
+
+            this.selected_vectors = []
+            this.select_mode = false
         },
         select_all() {
             this.vectors.forEach((vec, index) => 

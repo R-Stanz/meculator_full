@@ -177,15 +177,22 @@ const visibleButtons = computed(() =>
 watch(() => store.input_vector,
     async (new_vector) => {
         const schema_entries = Object.entries(store.validationSchema)
+
         const validations = await Promise.all(
-            schema_entries.map(async ([field, rule]) => {
-                const validation = await validate(store.input_vector[field], rule)
-                return validation.valid
-            })
+            schema_entries.map(async ([field, rule]) => 
+                {
+                    const validation = await validate(store.input_vector[field], rule)
+                    return validation.valid
+                }
+            )
         )
+
         is_savable.value = validations.every(valid => valid)
     },
-    { immediate: true }
+    {
+        deep: true, 
+        immediate: true
+    }
 )
 
 </script>
