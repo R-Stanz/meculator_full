@@ -41,20 +41,9 @@
   width: 100%;
 }
 
-.fade-enter-from {
-  opacity: 0;
-}
-
+.fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-}
-
-.btn-group-vertical {
-  position: relative;
-  min-height: 38px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
 }
 
 .btn-group-vertical > * {
@@ -65,14 +54,10 @@
 <script setup>
 import { useVectorsStore } from '@/stores/VectorsStore';
 import { validate } from 'vee-validate';
-import { ref, watch, computed } from 'vue';
+import { ref, watch, reactive, computed } from 'vue';
 
 const store = useVectorsStore()
 let is_savable = ref(false)
-
-const visibleButtons = computed(() => 
-    buttons.value.filter(btn => btn.condition)
-)
 
 const buttons = computed(() => [
     {
@@ -133,7 +118,7 @@ const buttons = computed(() => [
         icon: 'floppy',
         condition: store.input_mode,
         action: () => store.save_vector(),
-        disabled: !is_savable
+        disabled: !is_savable.value
     },
     {
         icon: 'pencil',
@@ -184,6 +169,10 @@ const buttons = computed(() => [
         disabled: false  
     }
 ])
+
+const visibleButtons = computed(() => 
+    buttons.value.filter(btn => btn.condition)
+)
 
 watch(() => store.input_vector,
     async (new_vector) => {
