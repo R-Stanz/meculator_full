@@ -7,7 +7,7 @@
       <thead>
           <tr>
             <th scope="col" v-show="store.just_selecting">Select</th>
-            <th scope="col" v-for="att in store.attributes">{{ att }}</th>
+            <th scope="col" v-for="att in attributes">{{ att }}</th>
           </tr>
       </thead>
 
@@ -15,7 +15,7 @@
         <tr v-if="store.input_mode && !store.select_mode">
             <td v-show="false"> Just to fix columns visual </td>
             <td 
-              v-for="field in store.fields_config"
+              v-for="field in fields_config"
               class="m-0"
             >
               <div class="d-flex flex-column m-0">
@@ -56,7 +56,7 @@
           <tr v-if="store.input_mode && vec.is_selected">
             <td v-show="false" />
             <td 
-              v-for="field in store.fields_config"
+              v-for="field in fields_config"
               class="m-0"
             >
               <div class="d-flex flex-column m-0">
@@ -89,6 +89,27 @@
 import { useVectorsStore } from '@/stores/VectorsStore';
 import { useForm } from 'vee-validate';
 import { reactive, watch } from 'vue';
+
+
+const attributes = reactive(
+  [
+    'Vector name',
+    'Value',
+    'x',
+    'y',
+    'z'
+  ]
+)
+
+const fields_config = reactive(
+  [
+    { name: 'name', type: 'text', placeholder: 'Vector Name' },
+    { name: 'value', type: 'text', placeholder: '0.00' },
+    { name: 'x', type: 'text', placeholder: '0.00' },
+    { name: 'y', type: 'text', placeholder: '0.00' },
+    { name: 'z', type: 'text', placeholder: '0.00' }
+  ]
+)
 
 const store = useVectorsStore()
 

@@ -3,17 +3,11 @@ import { defineStore } from 'pinia';
 export const useVectorsStore = defineStore('vectors', {
     state: () => {
         return {
-            attributes : [
-                'Vector name',
-                'Value',
-                'x',
-                'y',
-                'z'
-            ],
 
             select_mode : false,
             selected_vectors: [],
             input_mode : false,
+            show_more_options: false,
 
             vectors : [
                 { is_selected: false, name: 'Lorem', value: 30, x: 30, y: 0, z: 0 },
@@ -30,14 +24,6 @@ export const useVectorsStore = defineStore('vectors', {
                 z: 0
             },
 
-            fields_config : [
-                {name: 'name', type: 'text', placeholder: 'Vector Name'},
-                {name: 'value', type: 'text', placeholder: '0.00'},
-                {name: 'x', type: 'text', placeholder: '0.00'},
-                {name: 'y', type: 'text', placeholder: '0.00'},
-                {name: 'z', type: 'text', placeholder: '0.00'}
-            ],
-
             validationSchema : {
                 name:   'required|min:3',
                 value:  'required|decimal:3',
@@ -49,8 +35,8 @@ export const useVectorsStore = defineStore('vectors', {
         }
     },
     getters: {
-        on_a_mode: (state) => state.select_mode || state.input_mode,
-        just_selecting: (state) => state.select_mode && !state.input_mode,
+        on_a_mode: (state) => state.select_mode || state.input_mode || state.show_more_options,
+        just_selecting: (state) => state.select_mode && !state.input_mode && !state.show_more_options,
         selection_count: (state) => state.selected_vectors.length,
     },
     actions: {
@@ -93,6 +79,9 @@ export const useVectorsStore = defineStore('vectors', {
                 console.log('Adding vector: ', this.input_vector)
                 this.vectors.push(this.input_vector)
             }
-        }
+        },
+        switch_show_more_options() { 
+            this.show_more_options = !this.show_more_options
+        },
     }
 });
